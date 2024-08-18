@@ -5,14 +5,20 @@
 </template>
 
 <script>
+import { provide } from 'vue';
+import { globalState } from './globalState';
+
 export default {
   name: 'App',
+  setup() {
+    provide('globalState', globalState);
+  },
 };
 </script>
-
 <style>
 /* Global styles for dark theme with Star Wars feel */
 body {
+  height: 100%;
   background-color: #000;
   color: #ffc107;
   font-family: "Star Jedi", Arial, sans-serif;
@@ -56,11 +62,11 @@ button:hover {
   background-color: #333;
 }
 
-
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
+  table-layout: fixed;
 }
 
 table th,
@@ -68,6 +74,7 @@ table td {
   border: 1px solid #ffc107;
   padding: 8px;
   text-align: left;
+  word-wrap: break-word;
 }
 
 table th {
