@@ -4,17 +4,6 @@
   </div>
 </template>
 
-<script>
-import { provide } from 'vue';
-import { globalState } from './globalState';
-
-export default {
-  name: 'App',
-  setup() {
-    provide('globalState', globalState);
-  },
-};
-</script>
 <style>
 /* Global styles for dark theme with Star Wars feel */
 body {

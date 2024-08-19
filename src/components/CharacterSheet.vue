@@ -2,7 +2,7 @@
     <div class="character-sheet">
       <div class="form-group">
         <label for="characterName">Name:</label>
-        <input v-model="characterSheet.characterName" id="characterName" />
+        <input v-model="characterSheet.name" id="characterName" />
       </div>
       <div class="form-group">
         <label for="concept">Concept:</label>
@@ -35,17 +35,10 @@
     </div>
   </template>
 
-  <script>
-  import { inject, computed } from 'vue';
+  <script setup>
+    import { globalState } from '@/globalState';
+    const { characterSheet } = globalState.currentSession;
 
-  export default {
-    setup() {
-      const globalState = inject('globalState');
-      const characterSheet = computed(() => globalState.currentSession.characterSheet);
-
-      return { characterSheet };
-    },
-  };
   </script>
 
   <style scoped>

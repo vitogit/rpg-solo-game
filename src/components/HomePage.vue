@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h1>Welcome, {{  globalState.currentSession.characterSheet.name }}</h1>
+
     <form @submit.prevent="addSession">
       <div>
         <label for="sessionName">Session Name:</label>
@@ -49,60 +51,65 @@
   </div>
 </template>
 <script>
-import { inject, watch } from 'vue';
+import { watch } from 'vue';
 import Sortable from 'sortablejs';
 import Session from '@/models/Session';
+import { globalState } from '@/globalState.js'
 
 export default {
   name: 'HomePage',
   data() {
     return {
-      newSession: new Session(),
+      globalState, // Make globalState available in the component's instance
+      newSession: {},
       games: ['James Bond', 'Sherlock Holmes', 'Star Wars'],
       tables: {
         'James Bond': { /* James Bond specific tables */ },
         'Sherlock Holmes': { /* Sherlock Holmes specific tables */ },
         'Star Wars': { /* Star Wars specific tables */ },
-      },
+      }
     };
   },
   computed: {
-    globalState() {
-      return inject('globalState');
-    },
     selectedTables() {
       return this.tables[this.newSession.game] || null;
     },
   },
   methods: {
     addSession() {
-      this.globalState.sessions.push(new Session(
-        this.newSession.name,
-        this.newSession.game,
-        this.newSession.characterSheet,
-        this.newSession.missionLog,
-        this.newSession.gameLog
-      ));
+      globalState.sessions.push({
+        name: this.newSession.name,
+        game: this.newSession.game,
+        characterSheet: this.newSession.characterSheet,
+        missionLog: this.newSession.missionLog,
+        gameLog: this.newSession.gameLog,
+      });
       this.saveSessions();
-      this.newSession = new Session();
+      this.newSession = {
+        name: '',
+        game: '',
+        characterSheet: {},
+        missionLog: [],
+        gameLog: [],
+      };
     },
     loadSession(session) {
-      this.globalState.currentSession = session;
+      globalState.currentSession = session;
     },
     deleteSession(session) {
-      const index = this.globalState.sessions.indexOf(session);
+      const index = globalState.sessions.indexOf(session);
       if (index > -1) {
-        this.globalState.sessions.splice(index, 1);
+        globalState.sessions.splice(index, 1);
         this.saveSessions();
       }
     },
     saveSessions() {
-      localStorage.setItem('sessions', JSON.stringify(this.globalState.sessions));
+      localStorage.setItem('sessions', JSON.stringify(globalState.sessions));
     },
     loadSessions() {
       const sessions = JSON.parse(localStorage.getItem('sessions'));
       if (sessions) {
-        this.globalState.sessions = sessions.map(session => new Session(
+        globalState.sessions = sessions.map(session => new Session(
           session.name,
           session.game,
           session.characterSheet,
@@ -112,7 +119,7 @@ export default {
       }
     },
     exportSessions() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.globalState.sessions));
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(globalState.sessions));
       const downloadAnchorNode = document.createElement('a');
       downloadAnchorNode.setAttribute("href", dataStr);
       downloadAnchorNode.setAttribute("download", "sessions.json");
@@ -125,7 +132,7 @@ export default {
       const reader = new FileReader();
       reader.onload = (e) => {
         const sessions = JSON.parse(e.target.result);
-        this.globalState.sessions = sessions.map(session => new Session(
+        globalState.sessions = sessions.map(session => new Session(
           session.name,
           session.game,
           session.characterSheet,
@@ -137,23 +144,25 @@ export default {
       reader.readAsText(file);
     },
   },
-  mounted() {
-    this.globalState.currentSession = new Session();
+  created() {
+    console.log('created', globalState)
     this.loadSessions();
+  },
+  mounted() {
+    console.log('mounted')
 
     Sortable.create(this.$refs.sessionTable, {
       animation: 150,
       onEnd: (evt) => {
-        const movedItem = this.globalState.sessions.splice(evt.oldIndex, 1)[0];
-        this.globalState.sessions.splice(evt.newIndex, 0, movedItem);
+        const movedItem = globalState.sessions.splice(evt.oldIndex, 1)[0];
+        globalState.sessions.splice(evt.newIndex, 0, movedItem);
         this.saveSessions();
       },
     });
 
-    watch(() => this.globalState.sessions, () => {
+    watch(() => globalState.sessions, () => {
       this.saveSessions();
     }, { deep: true });
-
   },
 };
 </script>
