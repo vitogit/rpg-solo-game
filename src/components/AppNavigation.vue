@@ -1,7 +1,7 @@
 <template>
   <nav>
     <ul>
-      <li><router-link to="/">Home</router-link></li>
+      <li><router-link to="/home">Home</router-link></li>
       <li><router-link to="/character-sheet">Character Sheet</router-link></li>
       <li><router-link to="/mission-log">Mission Log</router-link></li>
       <li><router-link to="/game-log">Game Log</router-link></li>

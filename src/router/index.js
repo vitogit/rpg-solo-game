@@ -22,7 +22,7 @@ const routes = [
     path: '/',
     component: MainComponent,
     children: [
-      { path: '', component: HomePage },
+      { path: 'home', component: HomePage },
       { path: 'character-sheet', component: CharacterSheet },
       {
         path: 'mission-log',
