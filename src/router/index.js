@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import CharacterSheet from '../components/CharacterSheet.vue';
-import MissionLog from '../components/MissionLog.vue';
+import MissionsLog from '../components/MissionsLog.vue';
 import GameLog from '../components/GameLog.vue';
 import MainComponent from '../components/MainComponent.vue';
 import HomePage from '../components/HomePage.vue';
@@ -25,7 +25,7 @@ const routes = [
       { path: '', component: HomePage },
       { path: 'character-sheet', component: CharacterSheet },
       {
-        path: 'mission-log', component: MissionLog },
+        path: 'missions-log', component: MissionsLog },
       { path: 'game-log', component: GameLog },
     ],
   },

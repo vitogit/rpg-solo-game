@@ -27,7 +27,7 @@
             </select>
           </td>
           <td>{{ session.characterSheet?.name }}</td>
-          <td>{{ session.missionLog?.[session.missionLog.length - 1]?.description}}</td>
+          <td>{{ session.missionsLog?.[session.missionsLog.length - 1]?.description}}</td>
           <td>
             <button @click.stop="deleteSession(session)">Delete</button>
           </td>
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     addSession() {
-      const newSession = { id: Date.now(), name: '', game: '', characterSheet: {}, missionLog: [], gameLog: [] };
+      const newSession = { id: Date.now(), name: '', game: '', characterSheet: {}, missionsLog: [], gameLog: [] };
       globalState.sessions.unshift(newSession);
       this.loadSession(newSession);
     },
@@ -94,51 +94,5 @@ export default {
 </script>
 
 <style scoped>
-button {
-  background-color: #111;
-  color: #ffc107;
-  border: 1px solid #ffc107;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
 
-button:hover {
-  background-color: #333;
-}
-
-.session-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-}
-
-.session-table th,
-.session-table td {
-  border: 1px solid #ffc107;
-  padding: 8px;
-  text-align: center;
-}
-
-.session-table th {
-  background-color: #111;
-}
-
-.session-table tr {
-  cursor: pointer;
-}
-
-.session-table tr:hover {
-  background-color: #333;
-}
-
-.session-table input,
-.session-table select {
-  width: 80%;
-  padding: 8px;
-  border: 1px solid #ffc107;
-  border-radius: 15px;
-  background-color: #333;
-  color: #ffc107;
-}
 </style>

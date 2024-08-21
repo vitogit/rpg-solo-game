@@ -43,7 +43,7 @@ button {
   color: #ffc107;
   border: 1px solid #ffc107;
   padding: 10px 20px;
-  margin: 5px;
+  margin: 5px 0;
   cursor: pointer;
 }
 
@@ -62,21 +62,30 @@ table th,
 table td {
   border: 1px solid #ffc107;
   padding: 8px;
-  text-align: left;
-  word-wrap: break-word;
+  text-align: center;
 }
 
 table th {
   background-color: #111;
 }
 
-table td input,
-table td textarea {
-  width: 100%;
-  background-color: #000;
-  color: #ffc107;
+table tr {
+  cursor: pointer;
+}
+
+table tr:hover {
+  background-color: #333;
+}
+
+table input,
+table select,
+table textarea {
+  width: 80%;
+  padding: 8px;
   border: 1px solid #ffc107;
-  padding: 4px;
+  border-radius: 15px;
+  background-color: #333;
+  color: #ffc107;
 }
 
 table td textarea {

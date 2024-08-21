@@ -18,10 +18,7 @@
     created() {
       console.log('created main')
       this.loadGlobalState();
-      // watch(() => globalState, () => {
-      //   console.log('watched')
-      //   // this.saveGlobalState();
-      // }, { deep: true });
+      this.loadFirstSessionOrEmpty();
     },
     methods: {
       loadGlobalState() {
@@ -29,11 +26,13 @@
         if (loadedGlobalState) {
           globalState.loadGlobalState(loadedGlobalState);
         }
-      }
+      },
+      loadFirstSessionOrEmpty() {
+        if (globalState.sessions.length === 0) {
+          globalState.addSession();
+        }
+        globalState.loadSession(globalState.sessions[0]);
+      },
     },
   };
   </script>
-
-  <style scoped>
-  /* Add styles here */
-  </style>

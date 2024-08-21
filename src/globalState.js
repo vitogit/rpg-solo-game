@@ -1,4 +1,3 @@
-// globalState.js
 import { reactive } from 'vue';
 
 export const globalState = reactive({
@@ -33,5 +32,18 @@ export const globalState = reactive({
   loadGlobalState(state) {
     this.currentSession = state.currentSession;
     this.sessions = state.sessions;
+  },
+  addMission(mission) {
+    this.currentSession.missionsLog.push(mission);
+  },
+  deleteMission(mission) {
+    const index = this.currentSession.missionsLog.indexOf(mission);
+    if (index > -1) {
+      this.currentSession.missionsLog.splice(index, 1);
+    }
+  },
+  moveMission(fromIndex, toIndex) {
+    const movedItem = this.currentSession.missionsLog.splice(fromIndex, 1)[0];
+    this.currentSession.missionsLog.splice(toIndex, 0, movedItem);
   }
 });
