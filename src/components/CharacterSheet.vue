@@ -37,8 +37,7 @@
 
   <script setup>
     import { globalState } from '@/globalState';
-    const { characterSheet } = globalState.currentSession;
-
+    let { characterSheet } = globalState.currentSession;
   </script>
 
   <style scoped>

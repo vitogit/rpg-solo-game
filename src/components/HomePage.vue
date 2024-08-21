@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Welcome, {{  globalState.characterSheet.name }}</h1>
+    <h1>Current Session: {{ globalState.currentSession?.name }} ({{ globalState.currentSession?.game }})</h1>
 
     <h3>Sessions</h3>
     <button @click="addSession">Add New Session</button>
@@ -11,8 +11,8 @@
         <tr>
           <th>Name</th>
           <th>Game</th>
-          <!-- <th>Character Name</th>
-          <th>Last Mission Description</th> -->
+          <th>Character Name</th>
+          <th>Last Mission Description</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -22,10 +22,12 @@
             <input v-model="session.name"/>
           </td>
           <td>
-            <input v-model="session.game"/>
+            <select v-model="session.game">
+              <option v-for="game in games" :key="game" :value="game">{{ game }}</option>
+            </select>
           </td>
-          <!-- <td>{{ session.characterSheet.name }}</td>
-          <td>{{ session.missionLog.length ? session.missionLog[session.missionLog.length - 1].description : '' }}</td> -->
+          <td>{{ session.characterSheet?.name }}</td>
+          <td>{{ session.missionLog?.[session.missionLog.length - 1]?.description}}</td>
           <td>
             <button @click.stop="deleteSession(session)">Delete</button>
           </td>
@@ -36,7 +38,7 @@
   </div>
 </template>
 <script>
-import { watch } from 'vue';
+// import { watch } from 'vue';
 import Sortable from 'sortablejs';
 import { globalState } from '@/globalState.js'
 
@@ -55,7 +57,7 @@ export default {
   },
   methods: {
     addSession() {
-      const newSession = { id: Date.now(), name: '', game: '' };
+      const newSession = { id: Date.now(), name: '', game: '', characterSheet: {}, missionLog: [], gameLog: [] };
       globalState.sessions.unshift(newSession);
       this.loadSession(newSession);
     },
@@ -70,21 +72,15 @@ export default {
       // TODOS this can be in a watch to call each time the state changes
       console.log('save globalState', globalState)
       localStorage.setItem('globalState', JSON.stringify(globalState));
-    },
-    loadGlobalState() {
-      const loadedGlobalState = JSON.parse(localStorage.getItem('globalState'));
-      if (loadedGlobalState) {
-        globalState.loadGlobalState(loadedGlobalState);
-      }
-    },
+    }
   },
   created() {
-    console.log('created')
-    this.loadGlobalState();
-    watch(() => globalState, () => {
-      console.log('watched')
-      // this.saveGlobalState();
-    }, { deep: true });
+    console.log('created home')
+    // this.loadGlobalState();
+    // watch(() => globalState, () => {
+    //   console.log('watched')
+    //   // this.saveGlobalState();
+    // }, { deep: true });
   },
   mounted() {
     Sortable.create(this.$refs.sessionTable, {
@@ -136,7 +132,8 @@ button:hover {
   background-color: #333;
 }
 
-.session-table input {
+.session-table input,
+.session-table select {
   width: 80%;
   padding: 8px;
   border: 1px solid #ffc107;

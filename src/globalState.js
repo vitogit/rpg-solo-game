@@ -3,10 +3,14 @@ import { reactive } from 'vue';
 
 export const globalState = reactive({
   sessions: [],
-  currentSession: {},
-  characterSheet: {},
-  gameLog: [],
-  missionsLog: [],
+  currentSession: {
+    name: '',
+    game: '',
+    characterSheet: {},
+    gameLog: [],
+    missionsLog: [],
+  },
+
   setSessions(sessions) {
     this.sessions = sessions;
   },
