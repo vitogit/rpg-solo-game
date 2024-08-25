@@ -3,7 +3,7 @@
     <h1>Current Session: {{ globalState.currentSession?.name }} ({{ globalState.currentSession?.game }})</h1>
 
     <h3>Sessions</h3>
-    <button @click="addSession">Add New Session</button>
+    <button @click="addAndLoadEmptySession">Add New Session</button>
     <button @click="saveGlobalState">Save</button>
 
     <table class="session-table" ref="sessionTable">
@@ -38,7 +38,7 @@
   </div>
 </template>
 <script>
-// import { watch } from 'vue';
+import { toRaw } from 'vue';
 import Sortable from 'sortablejs';
 import { globalState } from '@/globalState.js'
 
@@ -56,26 +56,22 @@ export default {
     };
   },
   methods: {
-    addSession() {
-      const newSession = { id: Date.now(), name: '', game: '', characterSheet: {}, missionsLog: [], gameLog: [] };
-      globalState.sessions.unshift(newSession);
-      this.loadSession(newSession);
+    addAndLoadEmptySession() {
+      globalState.addAndLoadEmptySession();
     },
     loadSession(session) {
-      console.log('loadSession', session)
       globalState.loadSession(session);
     },
     deleteSession(session) {
       globalState.deleteSession(session);
     },
     saveGlobalState() {
-      // TODOS this can be in a watch to call each time the state changes
-      console.log('save globalState', globalState)
-      localStorage.setItem('globalState', JSON.stringify(globalState));
+      const rawGlobalState = toRaw(globalState);
+      localStorage.setItem('globalState', JSON.stringify(rawGlobalState));
     }
   },
   created() {
-    console.log('created home')
+    console.log('created home', globalState)
     // this.loadGlobalState();
     // watch(() => globalState, () => {
     //   console.log('watched')

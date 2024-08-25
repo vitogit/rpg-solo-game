@@ -2,14 +2,23 @@ import { reactive } from 'vue';
 
 export const globalState = reactive({
   sessions: [],
-  currentSession: {
-    name: '',
-    game: '',
-    characterSheet: {},
-    gameLog: [],
-    missionsLog: [],
+  currentSession: {},
+  emptySession() {
+    return {
+      name: '',
+      game: '',
+      characterSheet: {},
+      gameLog: {
+        messages: [],
+        sidebarSections: [
+          { title: 'Aspects', expanded: false, content: '' },
+          { title: 'Characters', expanded: false, content: '' },
+          { title: 'Quests', expanded: false, content: '' },
+        ]
+      },
+      missionsLog: [],
+    }
   },
-
   setSessions(sessions) {
     this.sessions = sessions;
   },
@@ -18,6 +27,11 @@ export const globalState = reactive({
   },
   loadSession(session) {
     this.currentSession = session;
+  },
+  addAndLoadEmptySession() {
+    const newSession = this.emptySession();
+    this.addSession(newSession);
+    this.loadSession(newSession);
   },
   deleteSession(session) {
     const index = this.sessions.indexOf(session);
@@ -45,5 +59,8 @@ export const globalState = reactive({
   moveMission(fromIndex, toIndex) {
     const movedItem = this.currentSession.missionsLog.splice(fromIndex, 1)[0];
     this.currentSession.missionsLog.splice(toIndex, 0, movedItem);
+  },
+  addMessage({ text, type }) {
+    this.currentSession.gameLog.messages.push({ text: text, type: type });
   }
 });

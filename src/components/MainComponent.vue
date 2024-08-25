@@ -16,7 +16,6 @@
       AppNavigation,
     },
     created() {
-      console.log('created main')
       this.loadGlobalState();
       this.loadFirstSessionOrEmpty();
     },
@@ -29,9 +28,10 @@
       },
       loadFirstSessionOrEmpty() {
         if (globalState.sessions.length === 0) {
-          globalState.addSession();
+          globalState.addAndLoadEmptySession();
+        } else {
+          globalState.loadSession(globalState.sessions[0]);
         }
-        globalState.loadSession(globalState.sessions[0]);
       },
     },
   };

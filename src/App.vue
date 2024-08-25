@@ -91,4 +91,9 @@ table textarea {
 table td textarea {
   resize: vertical;
 }
+
+input:focus, textarea:focus, select:focus {
+  border-color: #ff5733; /* Change this to your desired focus color */
+  outline: none; /* Remove the default outline */
+}
 </style>

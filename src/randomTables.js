@@ -2,7 +2,9 @@
 export const genericTables = {
   level: Array.from({ length: 6 }, (_, i) => i + 1),
   difficulty: Array.from({ length: 6 }, (_, i) => i + 1),
+  dice: Array.from({ length: 6 }, (_, i) => i + 1),
   complication: ['Ambush','Critical Failure','Lost Resources', 'Allies in danger', 'Environmental Hazard', 'Time Crunch', 'Betrayal', 'Innocents at risk', 'Moral Dilemma', 'Increased danger', 'Trap'],
+  question: ['Yes, and', 'Yes', 'Yes, but', 'No, but', 'No', 'No, and'],
 }
 export const randomTables = {
   'James Bond': {
@@ -33,4 +35,11 @@ export const randomTables = {
     minorCharacter: ['Smuggler', 'Bounty Hunter', 'Pilot', 'Alien', 'Droid', 'Rebel', 'Empire', 'First Order', 'Resistance', 'Hutt'],
     majorCharacter: ['Luke Skywalker', 'Leia Organa', 'Han Solo', 'Chewbacca', 'Obi-Wan Kenobi', 'Darth Vader', 'Emperor Palpatine', 'Yoda', 'Mace Windu', 'Qui-Gon Jinn', 'Rey', 'Kylo Ren'],
   },
+};
+
+export const getRandomElement = (arr) => {
+  if (!arr || arr.length === 0) {
+    return null; // or any default value you prefer
+  }
+  return arr[Math.floor(Math.random() * arr.length)];
 };

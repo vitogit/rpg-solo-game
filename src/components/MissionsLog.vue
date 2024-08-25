@@ -38,7 +38,7 @@
 
   <script>
   import Sortable from 'sortablejs';
-  import { randomTables, genericTables } from '@/randomTables.js';
+  import { randomTables, genericTables, getRandomElement } from '@/randomTables.js';
   import { globalState } from '@/globalState';
   export default {
     name: 'MissionsLog',
@@ -64,12 +64,6 @@
         });
       },
       addRandomMission() {
-        const getRandomElement = (arr) => {
-          if (!arr || arr.length === 0) {
-            return null; // or any default value you prefer
-          }
-          return arr[Math.floor(Math.random() * arr.length)];
-        };
         globalState.addMission({
           id: Date.now(),
           level: getRandomElement(genericTables.level),
