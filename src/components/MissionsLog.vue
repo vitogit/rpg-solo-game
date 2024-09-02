@@ -77,7 +77,7 @@
           status: 'Open',
         });
       },
-      removeMission(mission) {
+      deleteMission(mission) {
         globalState.deleteMission(mission);
       },
     },
